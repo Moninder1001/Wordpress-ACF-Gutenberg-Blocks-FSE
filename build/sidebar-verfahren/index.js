@@ -1,0 +1,1 @@
+!function(){"use strict";var e=window.wp.blocks,r=JSON.parse('{"u2":"haertha/sidebar-verfahren"}');(0,e.registerBlockType)(r.u2,{edit:function(){return wp.element.createElement("div",{className:"placeholder-block"},"Sidebar Verfahren")},save:function(){return null}})}();

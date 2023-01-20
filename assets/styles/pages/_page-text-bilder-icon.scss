@@ -1,0 +1,106 @@
+
+/**********************
+    Seite Text Bild Icon 
+    Gutenberg Block in 3 Styles
+**********************/
+
+
+.page-text-bilder-icon{
+
+     /* Default 1*/
+    position: relative;
+    background-color: var(--wp--preset--color--area);
+
+    @media (max-width: 992px) {
+        //Button
+        .btn-text-bilder-icon{
+            margin: var(--wp--preset--spacing--50) auto 0;
+        }
+    }
+
+    //Container
+    .container-xxl{
+        padding-left: 0 !important;
+        padding-right: 0 !important; 
+    }
+
+    .wrapper-position{
+        align-items: center;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .wrapper-position >  * {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    //Text
+    .has-align-text-right > div > div:nth-child(2) > div {   
+        padding:  var(--wp--preset--spacing--40);
+    }
+
+    .has-align-text-left > div > div:nth-child(2) > div {
+        padding:  var(--wp--preset--spacing--40);
+    }
+
+
+
+    @media (min-width: 992px) {
+
+        //Default
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        padding-top: var(--wp--preset--spacing--50);
+        padding-bottom: var(--wp--preset--spacing--50);
+
+        //Button
+        .btn-text-bilder-icon{
+            margin-top: var(--wp--preset--spacing--50);
+        }
+
+        .has-align-text-right > div > div:nth-child(2) > div > div > div > a{
+            float: right;
+        }
+
+        //Image
+        .wrapper-image{
+            padding-left: var(--wp--preset--spacing--40);
+        }
+        
+        .has-align-text-right > div > div.col-md-6.col-lg-6.order > div.wrapper-image{
+            padding-left: 0 !important;
+            position: relative;
+            padding-right:  var(--wp--preset--spacing--40);
+        }
+
+        .has-align-text-right > div > div:nth-child(2) > div > a {
+            float: right;
+        }
+
+        //Text
+        .has-align-text-right > div > div:nth-child(2) > div {
+            justify-content: flex-start !important;    
+            padding-left:  var(--wp--preset--spacing--40);
+        }
+
+        .has-align-text-left > div > div:nth-child(2) > div {
+            justify-content: flex-end !important; 
+            padding-right:  var(--wp--preset--spacing--40);
+        }
+
+        .wrapper-position{
+            align-items: center;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+    
+        .wrapper-position >  * {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+
+    }
+}
+
+
