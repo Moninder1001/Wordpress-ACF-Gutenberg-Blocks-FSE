@@ -60,14 +60,14 @@ class proceedingData {
                 if(object.name !== undefined){
                     var nam = i;
                     if(valHTML !== ""){
-                        partyHTML += "<ul>" + valHTML + "</ul>" + '</li>';
+                        partyHTML += "<ul class='checklist'>" + valHTML + "</ul>" + '</li>';
                         valHTML = "";
                     }
                     partyHTML += '<li class="item first-child"><span class="main-head">' + object.name + '</span>';
                    
                 }else if(object.title !== undefined){
 
-                    valHTML += '<li><input type="checkbox" value="' + object.title + '" name="cat[]">' + object.title + '</li>';
+                    valHTML += '<li><label class="container1"><input type="checkbox" value="' + object.postid + '" name="cat[]">' + object.title + '<span class="checkmark"></label></li>';
                 }
 
             });
@@ -92,14 +92,14 @@ class proceedingData {
                 if(object.name !== undefined){
                     var nam = i;
                     if(valHTML !== ""){
-                        partyHTML += "<ul>" + valHTML + "</ul>" + '</li>';
+                        partyHTML += "<ul class='checklist'>" + valHTML + "</ul>" + '</li>';
                         valHTML = "";
                     }
                     partyHTML += '<li class="item first-child"><span class="main-head">' + object.name + '</span>' ;
                    
                 }else if(object.title !== undefined){
 
-                    valHTML += '<li><input type="checkbox" value="' + object.postid + '" name="locations[]">' + object.title + '</li>';
+                    valHTML += '<li><label class="container1"><input type="checkbox" value="' + object.postid + '" name="locations[]">' + object.title + '<span class="checkmark"></span></label></li>';
                 }
 
             });
@@ -112,22 +112,37 @@ class proceedingData {
     //Zeig mir alle Ergebnisse an.
     getDataResults(){
 
-      var selected = new Array();
+        var search_text = jQuery('#search_text').val();
 
-            jQuery("#wrapper-locations input[type=checkbox]:checked").each(function () {
+      var loca = new Array();
 
-                selected.push(this.value);
+        jQuery("#wrapper-locations input[type=checkbox]:checked").each(function () {
+
+        loca.push(this.value);
 
             });
            
-        var serializedForm = {locations:selected};
+        var cat = new Array();
+
+        
+        jQuery("#wrapper-ur input[type=checkbox]:checked").each(function () {
+
+                cat.push(this.value);
+
+            });
+           
+        var serializedForm = {'cat':cat, 'loca':loca,'search_text':search_text };
 
         jQuery.post(proceedingsData.root_url + '/wp-json/proceedingsdata/v1/data/', serializedForm, function(data) 
         {
             var proceedings = data.proceedingsresults;
+            var valHTMLg = '';
+            var partyHTML = '';
+
             jQuery.each(proceedings, function(key, val){
 
-                jQuery("#wrapper-results").after(`
+                
+              /*  jQuery("#wrapper-results").after(`
                 <div class="col-12 col-md-4">
                     <div class="header-img">
                     ${val.thumbnail ? `<img src="${val.thumbnail}"` : `<img src="https://via.placeholder.com/640x360">` }
@@ -136,10 +151,40 @@ class proceedingData {
                         <p>${val.title}</p>   
                     </div>
                 </div>
-                `)
-            })
-        })
+                `)*/
+                if(val.title !== undefined){
+                   partyHTML +='<div class="col-12 col-md-4">';
+                   partyHTML += '<div class="header-img">';
+                   if(val.thumbnail)
+                   {
+                    partyHTML += '<img src="'+val.thumbnail+'">';
+                   }
+                   else
+                   {
+                    partyHTML += '<img src="https://via.placeholder.com/640x360">';
+                   }
+                   
+                    
+                   //partyHTML += val.thumbnail ? <img src="val.thumbnail" : <img src="https://via.placeholder.com/640x360"> 
+                    partyHTML +='</div>';
+                    partyHTML += '<div class="body">';
+                    partyHTML += '<p>' + val.title + '</p>';   
+                    partyHTML += '</div>';
+                    partyHTML += '</div>';
 
+               }
+                
+            })
+            //valHTMLg += '<p>gfdgdfg</p>';
+            jQuery("#wrapper-results").empty();
+            
+            if(proceedings == '')
+            {
+                jQuery("#wrapper-results").append('No Posts Found');
+            }
+            jQuery("#wrapper-results").append(partyHTML);
+        })
+         
         /*jQuery.getJSON(proceedingsData.root_url + '/wp-json/proceedingsdata/v1/data/', function(data){
 
             var proceedings = data.proceedingsresults;

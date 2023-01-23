@@ -64,7 +64,7 @@ if( !empty($block['className']) ) {
                     <!--Search-->
                     <div id="wrapper-serach-results" class="results-none">
                         <div class="wrapper">
-                            <input type="text" placeholder="Eingabe">
+                            <input type="text" name="search_text" id="search_text" placeholder="Eingabe">
                             <span class="underline"></span>
                         </div>
                     </div>

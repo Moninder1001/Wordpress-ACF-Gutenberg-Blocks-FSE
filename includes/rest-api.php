@@ -63,7 +63,8 @@ function callbackOverviewpProceedingsDataAPI(){
 
                 array_push($results['categorie'], array(
                     //'permalink' => get_the_permalink(),
-                    'title' => get_the_title()
+                    'title' => get_the_title(),
+                    'postid' => get_the_ID(),
                 ));
             } 
 
@@ -157,16 +158,30 @@ function proceedingsData(){
 
 function overviewpProceedingsData($data){
    
-    $locations = $_POST['locations'];
+    $locations = $_POST['loca'];
+    $search_text = $_POST['search_text'];
+    
+   
+    $cat = $_POST['cat'];
+   
+    foreach($locations as $location)
+    {
+        $new_meta_query[] = array('key' => 'contact_location', 'value' => sprintf('%s', $location),'compare' => 'LIKE');
+    }
     $proceedings = new WP_Query(array(
-        'post_type' => array('verfahren', 'standorte'),
+        'post_type' => 'verfahren',
         'posts_per_page' => -1,
-        // 'exact' => true,
+        'post__in'       => $cat,
         'sentence' => true,
-        's' => sanitize_text_field($data['term'])
+        's' => sanitize_text_field($search_text),
+         'meta_query' => array(
+           'relation' => 'OR',
+             $new_meta_query        
+        )
     ));
+   
 
-    $categorys = get_terms('verfahrenstechnik');
+   $categorys = get_terms('verfahrenstechnik');
     $categorysLocation = get_terms('standort');
 
     $results = array(
@@ -192,15 +207,18 @@ function overviewpProceedingsData($data){
             'id' => $catVal->term_id,
         ));
     }
+    
 
     while($proceedings->have_posts()){
         $proceedings->the_post();
 
+       
         if(get_post_type() == 'verfahren'){
             array_push($results['proceedingsresults'], array(
                 'permalink' => get_the_permalink(),
                 'title' => get_the_title(),
-                'thumbnail' =>      get_the_post_thumbnail_url()
+                'thumbnail' =>      get_the_post_thumbnail_url(),
+              
             ));
         }
 
@@ -230,6 +248,10 @@ function overviewpProceedingsData($data){
 
     }
     wp_reset_postdata();
+
+
+    //print_r($results);
+
     return $results;
 
 }
